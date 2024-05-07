@@ -1,0 +1,72 @@
+# CUDA 9.2
+conda install pytorch==1.7.0 torchvision==0.8.0 torchaudio==0.7.0 cudatoolkit=9.2 -c pytorch
+
+# CUDA 10.1
+conda install pytorch==1.7.0 torchvision==0.8.0 torchaudio==0.7.0 cudatoolkit=10.1 -c pytorch
+
+# CUDA 10.2
+conda install pytorch==1.7.0 torchvision==0.8.0 torchaudio==0.7.0 cudatoolkit=10.2 -c pytorch
+
+# CUDA 11.0
+conda install pytorch==1.7.0 torchvision==0.8.0 torchaudio==0.7.0 cudatoolkit=11.0 -c pytorch
+
+# CPU Only
+conda install pytorch==1.7.0 torchvision==0.8.0 torchaudio==0.7.0 cpuonly -c pytorch
+
+
+
+首先，安装cuda版本如上，不过需要到官网下载
+https://developer.nvidia.com/cuda-11.0-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=2004&target_type=deblocal
+注意：cuda下载的时候，不能在任意一个环境，（base也不行）
+接下来就会有多个cuda，只需要通过修改bashrc文件就可以指定要的cuda。 
+gedit ~/.bashrc
+
+
+创建新的环境，电脑只能同时指定一个CUDA，不然会串 
+ 
+ yolov5版本
+ https://github.com/ultralytics/yolov5/tree/v5.0?tab=readme-ov-file
+ 切忌直接gitcolne，gitclone下载的是最新版本！
+ 
+ 用这个！！！！
+ https://github.com/airockchip/yolov5/blob/master/README_rkopt.md
+ 
+ 
+ 
+ 
+ 下载v5.0的yolov5s.pt，记住，是v5.0！！！！
+ https://github.com/ultralytics/yolov5/releases
+ 
+ 
+ 
+ 构建训练文件夹（已构建）
+ 记得修改requirements.txt里的torch、torchision、torchaudio的版本或直接删除，否则会给你升级
+ 
+ 
+ 
+ 
+ 训练
+ python train.py --img 640 --batch 16 --epochs 1 --data ./ABC/ABC.yaml --cfg ./ABC/yolov5s.yaml --weights ./ABC/yolov5s.pt --hyp ./ABC/hyp.scratch-high.yaml 
+这个时候可以查看一下输出的信息，确保是yolov5-5.0
+
+导出
+
+
+修改yolo.py中的子函数，具体查看教程。
+转onnx
+python export.py --weights best.pt --img 640 --batch 1 --include onnx
+用这个命令
+python models/export.py --weights ./weights/best.pt --img 640 --batch 1
+
+
+
+rknn工具（新的环境）
+
+https://github.com/airockchip/rknn-toolkit2/releases
+
+
+换pip源
+pip config set global.index-url
+
+pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+

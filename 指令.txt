@@ -1,0 +1,17 @@
+rostopic echo /airsim_node/drone_1/debug/pose_gt     #圆心真值
+
+
+进入Test_ws_01
+
+source
+
+rosrun vins vins_node /home/sunming/Test_ws_01/src/VINS-Fusion/config/realsense_stereo_imu_config.yaml
+
+启动vins
+
+
+启动yolo
+roslaunch yolov5_ros yolov5.launch
+
+
+python train.py --weights ./myTask/yolov5s.pt --cfg ./myTask/yolov5s.yaml --data ./myTask/circle.yaml --hyp data/hyps/hyp.scratch-high.yaml --epochs 1000 --batch -1 --img 640
