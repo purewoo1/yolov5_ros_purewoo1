@@ -1,0 +1,83 @@
+
+<launch>
+    <!-- Common Detection Configuration -->
+    <arg name="weights" default="/home/sunming/Test_ws_01/src/yolov5_ros/src/yolov5/runs/train/exp9/weights/best.pt" />
+    <arg name="data" default="$(find yolov5_ros)/src/yolov5/myTask/circle.yaml" />
+    <arg name="confidence_threshold" default="0.75" />
+    <arg name="iou_threshold" default="0.45" />
+    <arg name="maximum_detections" default="1" />
+    <arg name="device" default="0" />
+    <arg name="agnostic_nms" default="true" />
+    <arg name="line_thickness" default="3" />
+    <arg name="dnn" default="true" />
+    <arg name="half" default="false" />
+
+    <!-- Inference size -->
+    <arg name="inference_size_h" default="640" />
+    <arg name="inference_size_w" default="640" />
+
+    <!-- Visualize using OpenCV window -->
+    <arg name="view_image" default="true" />
+
+    <!-- Optional topic (publishing annotated image) -->
+    <arg name="publish_image" default="true" />
+
+    <!-- Left camera topics -->
+    <arg name="left_input_image_topic" default="/airsim_node/drone_1/front_left/Scene" />
+    <arg name="left_output_topic" default="/yolov5/left_detections" />
+    <arg name="left_output_image_topic" default="/yolov5/left_image_out" />
+
+    <!-- Right camera topics -->
+    <arg name="right_input_image_topic" default="/airsim_node/drone_1/front_right/Scene" />
+    <arg name="right_output_topic" default="/yolov5/right_detections" />
+    <arg name="right_output_image_topic" default="/yolov5/right_image_out" />
+
+    <!-- Start detect_left.py for the left camera -->
+    <node pkg="yolov5_ros" type="detect_left.py" name="detect_left" output="screen">
+        <param name="weights" value="$(arg weights)" />
+        <param name="data" value="$(arg data)" />
+        <param name="confidence_threshold" value="$(arg confidence_threshold)" />
+        <param name="iou_threshold" value="$(arg iou_threshold)" />
+        <param name="maximum_detections" value="$(arg maximum_detections)" />
+        <param name="device" value="$(arg device)" />
+        <param name="agnostic_nms" value="$(arg agnostic_nms)" />
+        <param name="line_thickness" value="$(arg line_thickness)" />
+        <param name="dnn" value="$(arg dnn)" />
+        <param name="half" value="$(arg half)" />
+        <param name="inference_size_h" value="$(arg inference_size_h)" />
+        <param name="inference_size_w" value="$(arg inference_size_w)" />
+        <param name="left_input_image_topic" value="$(arg left_input_image_topic)" />
+        <param name="left_output_topic" value="$(arg left_output_topic)" />
+        <param name="left_output_image_topic" value="$(arg left_output_image_topic)" />
+        <param name="view_image" value="$(arg view_image)" />
+        <param name="publish_image" value="$(arg publish_image)" />
+    </node>
+
+    <!-- Start detect_right.py for the right camera -->
+    <node pkg="yolov5_ros" type="detect_right.py" name="detect_right" output="screen">
+        <param name="weights" value="$(arg weights)" />
+        <param name="data" value="$(arg data)" />
+        <param name="confidence_threshold" value="$(arg confidence_threshold)" />
+        <param name="iou_threshold" value="$(arg iou_threshold)" />
+        <param name="maximum_detections" value="$(arg maximum_detections)" />
+        <param name="device" value="$(arg device)" />
+        <param name="agnostic_nms" value="$(arg agnostic_nms)" />
+        <param name="line_thickness" value="$(arg line_thickness)" />
+        <param name="dnn" value="$(arg dnn)" />
+        <param name="half" value="$(arg half)" />
+        <param name="inference_size_h" value="$(arg inference_size_h)" />
+        <param name="inference_size_w" value="$(arg inference_size_w)" />
+        <param name="right_input_image_topic" value="$(arg right_input_image_topic)" />
+        <param name="right_output_topic" value="$(arg right_output_topic)" />
+        <param name="right_output_image_topic" value="$(arg right_output_image_topic)" />
+        <param name="view_image" value="$(arg view_image)" />
+        <param name="publish_image" value="$(arg publish_image)" />
+    </node>
+    
+    <node pkg="yolov5_ros" name="right_circle_center_node" type="right_circle_center_node.py" output="screen">
+    </node>    
+    <node pkg="yolov5_ros" name="left_circle_center_node" type="left_circle_center_node.py" output="screen">
+    </node>    
+    <node pkg="yolov5_ros" name="world_circle_center" type="world_circle_center.py" output="screen">
+    </node> 
+</launch>
