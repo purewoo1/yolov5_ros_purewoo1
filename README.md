@@ -1,3 +1,7 @@
+#注：以下Readme文档中内容均为引用的开源项目yolov5_ros，在整个仓库中仅上传了针对yolov5_ros包中修改的部分，包括src、launch文件、msg自定义消息。另外上传了exp16，为针对此项目一次训练的yolo模型，效果较好。指令.txt内包含了一些会用到的指令，进攻参考。
+
+
+
 # YOLOv5 ROS
 This is a ROS interface for using YOLOv5 for real time object detection on a ROS image topic. It supports inference on multiple deep learning frameworks used in the [official YOLOv5 repository](https://github.com/ultralytics/yolov5).
 
